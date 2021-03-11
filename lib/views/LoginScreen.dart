@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:homescreen/values/values.dart';
+import 'package:homescreen/widgets/potbelly_button.dart';
+import 'package:homescreen/widgets/spaces.dart';
 
 import '../main.dart';
 import '../main.dart';
+import 'SignUpScreen.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -13,9 +18,9 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _autoValidate = false;
   GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final TextEditingController _emailTextController =
-  new TextEditingController();
+      new TextEditingController();
   final TextEditingController _passwordTextController =
-  new TextEditingController();
+      new TextEditingController();
   var kMarginPadding = 16.0;
   var kFontSize = 13.0;
 
@@ -28,8 +33,14 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     divWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
+        body: Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/backg.png"),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Center(
         child: SingleChildScrollView(
           child: Form(
               key: _formKey,
@@ -39,11 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
               )),
         ),
       ),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0.0,
-      ),
-    );
+    ));
   }
 
   Widget _buildEmailSignUpForm() {
@@ -54,66 +61,101 @@ class _LoginScreenState extends State<LoginScreen> {
         new Container(
           height: 50.0,
           width: 145.0,
-          child: Icon(Icons.image, size: 100.0,),
+          child: Icon(
+            Icons.account_box,
+            size: 100.0,
+          ),
         ),
         new Container(
           margin: EdgeInsets.only(top: 50.0, left: 15.0, right: 15.0),
+          padding: EdgeInsets.only(bottom: 45),
           child: new Text(
-            "Login here",
+            "Giriş Yap",style: Styles.titleTextStyleWithSecondaryTextColor,
             maxLines: 1,
           ),
         ),
         new Container(
-          padding: EdgeInsets.only(left: 10.0, right: 10.0),
-          margin: EdgeInsets.only(left: kMarginPadding, right: kMarginPadding),
+
+          height: 65,
+          width: 250,
+          decoration: BoxDecoration(
+          color: Color.fromRGBO(255, 255, 255, 0.3),
+          borderRadius: BorderRadius.circular(10),
+        ),
+          padding: EdgeInsets.only(
+            left: 10,
+            right: 50,
+          ),
+          margin: EdgeInsets.only(left: 10.0, right: 10.0),
           child: new TextFormField(
+            style: Styles.normalTextStyle,
               controller: _emailTextController,
               validator: _validateEmail,
               keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
-                  labelText: "Email*",
-                  hintText: "Enter your email",
-                  labelStyle: new TextStyle(fontSize: 13))),
+              decoration: InputDecoration(prefixIcon: Icon(Icons.email_outlined),
+                  //labelText: " ",
+                  hintText: "E-posta adresinizi giriniz",
+                hintStyle: Styles.customNormalTextStyle(fontSize: 13,color: Colors.white),
+                  labelStyle: Styles.customNormalTextStyle(fontSize: 16),)),
         ),
-        SizedBox(
-          height: 10.0,
+SpaceH16(),
+        new Container( height: 65,
+          width: 250,
+          decoration: BoxDecoration(
+          color: Color.fromRGBO(255, 255, 255, 0.3),
+          borderRadius: BorderRadius.circular(10),
         ),
-        new Container(
-          padding: EdgeInsets.only(left: 10.0, right: 10.0),
-          margin: EdgeInsets.only(left: kMarginPadding, right: kMarginPadding),
+          padding: EdgeInsets.only(
+            left: 10,
+            right: 50,
+          ),
+          margin: EdgeInsets.only(left: 10.0, right: 10.0),
           child: new TextFormField(
-              style: new TextStyle(
-                  fontSize: kMarginPadding, color: Colors.black38),
+              style: Styles.customNormalTextStyle(fontSize: 16),
               obscureText: true,
               validator: (String value) {
                 if (value.isEmpty) {
-                  return "Please enter your password";
+                  return "Lütfen şifrenizi girin";
                 } else {
                   return null;
                 }
               },
               controller: _passwordTextController,
-              decoration: InputDecoration(
-                  labelText: "Password*",
-                  hintText: "Enter a password",
-                  labelStyle: new TextStyle(fontSize: kFontSize))),
+              decoration: InputDecoration(prefixIcon: Icon(Icons.lock),
+                //  labelText: "",
+                  hintText: "Şifrenizi girin",hintStyle: Styles.customNormalTextStyle(fontSize: 13),
+                  labelStyle: Styles.customNormalTextStyle(fontSize: 16),)),
         ),
-        SizedBox(
-          height: 10.0,
-        ),
-        new RaisedButton(
-          onPressed: () { _loginButtonTapped();
-
+SpaceH30(),
+        new PotbellyButton(
+          StringConst.LOGIN,
+          onTap: () {
+            _loginButtonTapped();
           },
-          child: new Text("Login"),
         ),
-        new FlatButton(
-            onPressed: () {
+        //onPressed: () { _loginButtonTapped();},
 
+        new FlatButton(
+            onPressed: () {},
+            child: new Text(
+              'Şifrenizi mi unuttunuz?',style: Styles.normalTextStyle,
+            )),
+        new Container(
+          decoration: BoxDecoration(
+            color: Color.fromRGBO(255, 255, 255, 0.2),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: FlatButton(
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => SignUpScreen()));
             },
             child: new Text(
-              'Forgot password',
-            )),
+              'Hesabınız yok mu?',
+              style: Styles.customNormalTextStyle(fontSize: 17),
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -135,5 +177,4 @@ class _LoginScreenState extends State<LoginScreen> {
           builder: (BuildContext context) => MyStatefulWidget()));
     }
   }
-
 }

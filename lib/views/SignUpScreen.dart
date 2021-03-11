@@ -1,5 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:homescreen/values/values.dart';
+import 'package:homescreen/widgets/potbelly_button.dart';
+import 'package:homescreen/widgets/spaces.dart';
 
 import 'LoginScreen.dart';
 
@@ -13,48 +17,49 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool _autoValidate = false;
   GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final TextEditingController _firstNameTextController =
-  new TextEditingController();
+      new TextEditingController();
   final TextEditingController _lastNameTextController =
-  new TextEditingController();
+      new TextEditingController();
   final TextEditingController _phoneTextController =
-  new TextEditingController();
+      new TextEditingController();
   final TextEditingController _passwordTextController =
-  new TextEditingController();
+      new TextEditingController();
+  final TextEditingController _emailTextController =
+      new TextEditingController();
   var kMarginPadding = 16.0;
   var kFontSize = 13.0;
 
   @override
   void initState() {
     super.initState();
-
   }
 
   @override
   Widget build(BuildContext context) {
     divWidth = MediaQuery.of(context).size.width;
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
-        child: SingleChildScrollView(
-          child: Form(
-              key: _formKey,
-              autovalidate: _autoValidate,
-              child: Column(
-                children: <Widget>[_buildEmailSignUpForm()],
-              )),
-        ),
-      ),
-      appBar: AppBar(
-        leading: IconButton(
-            icon: Icon(
-              Icons.close,
-              color: Colors.blueGrey,
+    return Container(
+      child: Scaffold(
+        backgroundColor: Colors.purple,
+        // home: Image.asset('assets/bg.jpg'),
+
+        //backgroundColor: Colors.white,
+        body: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/backg.png"),
+                fit: BoxFit.cover,
+              ),
             ),
-            onPressed: () {
-              Navigator.pop(context, false);
-            }),
-        backgroundColor: Colors.white,
-        elevation: 0.0,
+            child: Center(
+              child: SingleChildScrollView(
+                child: Form(
+                    key: _formKey,
+                    autovalidate: _autoValidate,
+                    child: Column(
+                      children: <Widget>[_buildEmailSignUpForm()],
+                    )),
+              ),
+            )),
       ),
     );
   }
@@ -64,58 +69,88 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return new Column(
       children: <Widget>[
         new Container(
-          height: 51.0,
-          width: 144.0,
+            /*decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/backg.png"),
+              fit: BoxFit.cover,
+            ),
+          ),*/
+            ),
+        new Container(
           child: new Container(),
         ),
         new Container(
+            padding: EdgeInsets.only(bottom: 45),
             margin: EdgeInsets.only(
-                top: 50.0, left: kMarginPadding, right: kMarginPadding),
+                top: 0.0, left: kMarginPadding, right: kMarginPadding),
             child: new Text(
-              "Sign up ",
+              "Hesabınızı oluşturun ",
+              style: Styles.customTitleTextStyle(
+                  color: Colors.white70, fontSize: 30),
               maxLines: 1,
             )),
-        new Row(
-          children: <Widget>[
-            new Expanded(
-                child: new Container(
-                  padding: EdgeInsets.all(10.0),
-                  margin: EdgeInsets.only(left: kMarginPadding, right: 10.0),
-                  child: new TextFormField(
-                      style: new TextStyle(
-                          fontSize: kFontSize, color: Colors.blueGrey),
-                      controller: _firstNameTextController,
-                      validator: _validateFields,
-                      decoration: InputDecoration(
-                          labelText: "First Name*",
-                          hintText: "Enter your first name",
-                          labelStyle: new TextStyle(fontSize: kFontSize))),
-                )),
-            new Expanded(
-                child: new Container(
-                  padding: EdgeInsets.all(10.0),
-                  margin: EdgeInsets.only(left: 10.0, right: kMarginPadding),
-                  child: new TextFormField(
-                      style: new TextStyle(
-                          fontSize: kFontSize, color: Colors.blueGrey),
-                      controller: _lastNameTextController,
-                      validator: _validateFields,
-                      decoration: InputDecoration(
-                          labelText: "Last name",
-                          hintText: "Enter your last name",
-                          labelStyle: new TextStyle(fontSize: kFontSize))),
-                ))
-          ],
-        ),
-        SizedBox(
-          height: 10.0,
-        ),
+        SpaceH30(),
         new Container(
-          padding: EdgeInsets.only(left: kMarginPadding, right: kMarginPadding),
+          height: 65,
+          width: 250,
+          padding: EdgeInsets.only(
+            left: 10,
+            right: 50,
+          ),
+          margin: EdgeInsets.only(left: 10.0, right: 10.0),
+          decoration: BoxDecoration(
+              color: Color.fromRGBO(255, 255, 255, 0.3),
+              borderRadius: BorderRadius.circular(12),
+              ),
+          child: new TextFormField(
+            style: Styles.normalTextStyle,
+            controller: _firstNameTextController,
+            validator: _validateFields,
+            decoration: InputDecoration(
+              prefixIcon: Icon(Icons.account_box),
+              // labelText: "Adınız*",
+              hintText: "Adınız",
+              hintStyle: Styles.customNormalTextStyle(fontSize: 13),
+              labelStyle: Styles.customNormalTextStyle(fontSize: 16),
+            ),
+          ),
+        ),
+        SpaceH16(),
+        new Container(
+          height: 65,
+          width: 250,
+          decoration: BoxDecoration(
+            color: Color.fromRGBO(255, 255, 255, 0.3),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          padding: EdgeInsets.only(
+            left: 10,
+            right: 50,
+          ),
           margin: EdgeInsets.only(left: 10.0, right: 10.0),
           child: new TextFormField(
-              style: new TextStyle(
-                  fontSize: kFontSize, color: Colors.blueGrey),
+              style: Styles.normalTextStyle,
+              controller: _lastNameTextController,
+              validator: _validateFields,
+              decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.account_box),
+                  //labelText: "Soyadınız*",
+                  hintText: "Soyadınız",
+                  hintStyle: Styles.customNormalTextStyle(fontSize: 13),
+                  labelStyle: Styles.customNormalTextStyle(fontSize: 16))),
+        ),
+        SpaceH16(),
+        new Container(
+          height: 65,
+          width: 250,
+          decoration: BoxDecoration(
+            color: Color.fromRGBO(255, 255, 255, 0.3),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          padding: EdgeInsets.only(left: 10, right: 50),
+          margin: EdgeInsets.only(left: 10.0, right: 10.0),
+          child: new TextFormField(
+              style: Styles.normalTextStyle,
               controller: _phoneTextController,
               inputFormatters: [
                 new BlacklistingTextInputFormatter(new RegExp('[\\.|\\,|\\-]')),
@@ -123,47 +158,89 @@ class _SignUpScreenState extends State<SignUpScreen> {
               keyboardType: TextInputType.number,
               validator: (value) {
                 if (value.length == 0) {
-                  return "Please enter your phone number";
+                  return "Lütfen telefon numaranızı girin.";
                 } else {
                   return null;
                 }
               },
               decoration: InputDecoration(
-                  labelText: "Phone number",
-                  hintText: "Enter phone number",
-                  labelStyle: new TextStyle(fontSize: kFontSize))),
+                  prefixIcon: Icon(Icons.phone),
+                  //  labelText: "Telefon Numaranız",
+                  hintStyle: Styles.customNormalTextStyle(fontSize: 13),
+                  hintText: "Numaranızı girin",
+                  labelStyle: Styles.customNormalTextStyle(
+                    fontSize: 16,
+                  ))),
         ),
-        SizedBox(
-          height: 10.0,
-        ),
+        SpaceH16(),
         new Container(
-          padding: EdgeInsets.only(left: kMarginPadding, right: kMarginPadding),
+          height: 65,
+          width: 250,
+          decoration: BoxDecoration(
+            boxShadow: [Shadows.primaryShadow],
+            color: Color.fromRGBO(255, 255, 255, 0.3),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          padding: EdgeInsets.only(
+            left: 10,
+            right: 50,
+          ),
           margin: EdgeInsets.only(left: 10.0, right: 10.0),
           child: new TextFormField(
-              style: new TextStyle(
-                  fontSize: kFontSize, color: Colors.blueGrey),
+            style: Styles.normalTextStyle,
+            controller: _emailTextController,
+            validator: _validateEmail,
+            keyboardType: TextInputType.emailAddress,
+            decoration: InputDecoration(
+              prefixIcon: Icon(Icons.email_outlined),
+              //  labelText: "E-posta*",
+              hintText: 'E-posta',
+              hintStyle: Styles.customNormalTextStyle(
+                  fontSize: 13, color: Colors.white),
+              labelStyle: Styles.customNormalTextStyle(fontSize: 16),
+            ),
+          ),
+        ),
+        SpaceH16(),
+        new Container(
+          height: 65,
+          width: 250,
+          decoration: BoxDecoration(
+            color: Color.fromRGBO(255, 255, 255, 0.3),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          padding: EdgeInsets.only(
+            left: 10,
+            right: 50,
+          ),
+          margin: EdgeInsets.only(left: 10.0, right: 10.0),
+          child: new TextFormField(
+              style: Styles.customNormalTextStyle(),
               obscureText: true,
               controller: _passwordTextController,
               validator: (value) {
                 if (value.length == 0) {
-                  return "Password is not valid";
-                } else if (value.length < 6) {
-                  return "Please enter atleast 6 characters";
+                  return "Şifre geçersiz";
+                } else if (value.length < 8) {
+                  return "En az 8 karakter";
                 } else {
                   return null;
                 }
               },
               decoration: InputDecoration(
-                  labelText: "Password*",
-                  hintText: "Enter a password",
-                  labelStyle: new TextStyle(fontSize: kFontSize))),
+                  prefixIcon: Icon(
+                    Icons.lock,
+                    size: 20,
+                  ),
+                  //  labelText: "Password*",
+                  hintStyle: Styles.customNormalTextStyle(fontSize: 13),
+                  hintText: "Şifre oluştur",
+                  labelStyle: Styles.customNormalTextStyle(fontSize: 16))),
         ),
-        SizedBox(
-          height: 10.0,
-        ),
-        new RaisedButton(
-          child: new Text("Sign Up"),
-          onPressed: () => _signUpButtonTaped(),
+        SpaceH16(),
+        new PotbellyButton(
+          StringConst.REGISTER,
+          onTap: () => _signUpButtonTaped(),
         ),
         TextButton(
             onPressed: () {
@@ -174,12 +251,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: Text("Hesabınız varsa giriş yapın.")),
       ],
     );
-    
   }
 
+  //onPressed: () => _signUpButtonTaped(),
   String _validateFields(String text) {
     if (text.length == 0) {
-      return "Should not be empty";
+      return "Boş kalmamalı";
     } else {
       return null;
     }
@@ -197,4 +274,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
       });
     }
   }
+}
+
+String _validateEmail(String email) {
+  Pattern pattern =
+      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+  RegExp regex = new RegExp(pattern);
+  if (regex.hasMatch(email))
+    return null;
+  else
+    return "Geçerli bir e-posta girin";
 }
