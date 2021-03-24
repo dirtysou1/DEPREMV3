@@ -13,6 +13,8 @@ import 'package:volume_watcher/volume_watcher.dart';
 import 'package:battery/battery.dart';
 class HomePage extends StatefulWidget {
 
+
+
   @override
   _HomePageState createState() => _HomePageState();
 
@@ -25,8 +27,9 @@ class _HomePageState extends State<HomePage> {
 
   Duration _duration = new Duration();
   Duration _position = new Duration();
-  AudioPlayer advancedPlayer;
+  AudioPlayer  advancedPlayer;
   AudioCache audioCache;
+
 
   @override
   void initState() {
@@ -36,7 +39,7 @@ class _HomePageState extends State<HomePage> {
   }
 
 
-  void initPlayer() {
+   void initPlayer() {
     advancedPlayer = new AudioPlayer();
     audioCache = new AudioCache(fixedPlayer: advancedPlayer,respectSilence: false);
 
@@ -94,6 +97,7 @@ class _HomePageState extends State<HomePage> {
   UserLocation Loca = new UserLocation();
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return new Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -130,23 +134,12 @@ class _HomePageState extends State<HomePage> {
               alignment: Alignment.bottomRight,
               child: FlatButton(
                   onPressed: () async {
-                    print('yjyyj');
+
 
                     advancedPlayer.stop();
-                    advancedPlayer.dispose();
+                    //advancedPlayer.dispose();
 
-                    AwesomeDialog(context: context,animType: AnimType.SCALE,
-                        dialogBackgroundColor: Colors.green,
-                      dialogType: DialogType.INFO,
-                      body: Center(child: Text(
-                        'Yakınlarınıza güvende olduğunuz bilgisi iletilmiştir.',
-                        style: TextStyle(fontStyle: FontStyle.italic),
-                      ),),
-                      title: 'This is Ignored',
-                      desc:   'This is also Ignored',
-                      btnOkText: 'Tamam',
-                      btnOkOnPress: () {},
-                    )..show();
+
 
 
                   },
@@ -155,7 +148,8 @@ class _HomePageState extends State<HomePage> {
                     fit: BoxFit.cover,
 
                   )),
-            width: 200,height: 200,),Divider(),
+              height: (size.height * 50) / 250.0,
+              width: (size.width * 50) / 100.0,),Divider(),
             new Container(
               alignment: Alignment.centerRight,
 
@@ -175,11 +169,7 @@ class _HomePageState extends State<HomePage> {
                   //telefonun modelini öğrenir
                   DeviceInfo.getAndroidDeviceInfo();
 
-                  //konum için gerekli izinleri ister
-                  loca1.location.requestPermission();
-                  loca1.location.serviceEnabled();
-                  loca1.location.requestService();
-                  loca1.location.hasPermission();
+
 
 
                   //konumu alır
@@ -215,7 +205,8 @@ class _HomePageState extends State<HomePage> {
 
                 ),
               ),
-            width: 200,height: 170),
+              height: (size.height * 50) / 250.0,
+              width: (size.width * 50) / 100.0,),
 
           ],
         ),

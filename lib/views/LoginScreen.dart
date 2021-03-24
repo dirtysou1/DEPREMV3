@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:homescreen/AlSayfas.dart';
 import 'package:homescreen/values/values.dart';
 import 'package:homescreen/widgets/potbelly_button.dart';
 import 'package:homescreen/widgets/spaces.dart';
@@ -174,7 +175,7 @@ SpaceH30(),
     FocusScope.of(context).requestFocus(new FocusNode());
     if (_formKey.currentState.validate()) {
       Navigator.of(context).push(MaterialPageRoute(
-          builder: (BuildContext context) => MyStatefulWidget()));
+          builder: (BuildContext context) => AlSayfas()));
     }
   }
 }

@@ -12,9 +12,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:homescreen/HomePage.dart';
+import 'package:homescreen/Profil.dart';
 import 'package:homescreen/ProfilePage.dart';
 import 'package:homescreen/InfoPage.dart';
 import 'package:homescreen/SettingsPage.dart';
+import 'package:homescreen/Butonlar.dart';
+import 'package:homescreen/Yaknlarm.dart';
+
 import 'package:homescreen/views/LoginScreen.dart';
 import 'package:homescreen/views/SignUpScreen.dart';
 import 'ProfilePage.dart';
@@ -49,9 +53,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold,color: Colors.red);
 
   final List<Widget> _widgetOptions = <Widget>[
-    HomePage(),
-    ProfilePage(),
-    InfoPage(),
+    Butonlar(),
+    Profil(),
+    Yaknlarm(),
     SettingsPage(),
   ];
 
@@ -74,18 +78,18 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             backgroundColor: Color.fromRGBO(54,54,54,1),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_box_sharp),
+            icon: Icon(Icons.account_box_outlined),
             label: 'Profil',
             backgroundColor: Color.fromRGBO(54,54,54,1),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.info_outlined),
-            label: 'Gerekli Bilgiler',
+            icon: Icon(Icons.family_restroom_outlined),
+            label: 'Yakınlarım',
             backgroundColor: Color.fromRGBO(54,54,54,1),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
+            icon: Icon(Icons.info_outlined),
+            label: 'Bilgiler',
             backgroundColor: Color.fromRGBO(54,54,54,1),
           ),
         ],
