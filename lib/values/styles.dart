@@ -39,7 +39,7 @@ class Styles {
   );
 
   static const TextStyle foodyBiteSubtitleTextStyle = TextStyle(
-    color: AppColors.accentText,
+    color: AppColors.black,
     fontFamily: StringConst.FONT_FAMILY,
     fontWeight: FontWeight.w400,
     fontSize: Sizes.TEXT_SIZE_14,

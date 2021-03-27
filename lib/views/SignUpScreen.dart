@@ -1,11 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:homescreen/values/values.dart';
 import 'package:homescreen/widgets/potbelly_button.dart';
 import 'package:homescreen/widgets/spaces.dart';
-
+import 'package:http/http.dart' as http;
 import 'LoginScreen.dart';
+import 'package:turkiye_il_ilce_mahalle/turkiye_il_ilce_mahalle.dart';
+import 'dart:async';
+import 'package:homescreen/values/iller.dart';
+import 'dart:convert';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -26,9 +31,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
       new TextEditingController();
   final TextEditingController _emailTextController =
       new TextEditingController();
+  final TextEditingController _ilTextController = new TextEditingController();
+  final TextEditingController _dogumTextController =
+      new TextEditingController();
   var kMarginPadding = 16.0;
   var kFontSize = 13.0;
+  Map _ilM = {"bilesenAdi": "İl Seçimi Yapın"};
+String url ="https://www.easyrescuer.com/flutterkayit.php";
 
+  Future<List> senddata() async {
+    final response = await http.post(Uri.parse(url), body: {
+      "isim": _firstNameTextController.text,
+      "soyisim": _lastNameTextController.text,
+      "tel": _phoneTextController.text,
+      "email": _emailTextController.text,
+      "il": _ilTextController.text,
+      "password": _passwordTextController.text,
+      "dogumyili": _dogumTextController.text,
+    });
+
+    var datauser = json.decode(response.body);
+  }
   @override
   void initState() {
     super.initState();
@@ -80,16 +103,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
           child: new Container(),
         ),
         new Container(
-            padding: EdgeInsets.only(bottom: 45),
+            padding: EdgeInsets.only(bottom: 5,top: 60),
             margin: EdgeInsets.only(
                 top: 0.0, left: kMarginPadding, right: kMarginPadding),
             child: new Text(
-              "Hesabınızı oluşturun ",
+              "HESAP OLUŞTUR ",
               style: Styles.customTitleTextStyle(
                   color: Colors.white70, fontSize: 30),
               maxLines: 1,
             )),
-        SpaceH30(),
+   SpaceH8(),
         new Container(
           height: 65,
           width: 250,
@@ -99,9 +122,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ),
           margin: EdgeInsets.only(left: 10.0, right: 10.0),
           decoration: BoxDecoration(
-              color: Color.fromRGBO(255, 255, 255, 0.3),
-              borderRadius: BorderRadius.circular(12),
-              ),
+            color: Color.fromRGBO(255, 255, 255, 0.3),
+            borderRadius: BorderRadius.circular(12),
+          ),
           child: new TextFormField(
             style: Styles.normalTextStyle,
             controller: _firstNameTextController,
@@ -186,6 +209,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
             right: 50,
           ),
           margin: EdgeInsets.only(left: 10.0, right: 10.0),
+          child: 
+    new TextFormField(
+            style: Styles.normalTextStyle,
+            controller: _ilTextController,
+            validator: _validateFields,
+            decoration: InputDecoration(
+              prefixIcon: Icon(Icons.add_location),
+              //  labelText: "E-posta*",
+              hintText: 'İl',
+              hintStyle: Styles.customNormalTextStyle(
+                  fontSize: 13, color: Colors.white),
+              labelStyle: Styles.customNormalTextStyle(fontSize: 16),
+            ),
+          ),
+        ),  
+        SpaceH16(),
+        new Container(
+          height: 65,
+          width: 250,
+          decoration: BoxDecoration(
+            boxShadow: [Shadows.primaryShadow],
+            color: Color.fromRGBO(255, 255, 255, 0.3),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          padding: EdgeInsets.only(
+            left: 10,
+            right: 50,
+          ),
+          margin: EdgeInsets.only(left: 10.0, right: 10.0),
           child: new TextFormField(
             style: Styles.normalTextStyle,
             controller: _emailTextController,
@@ -195,6 +247,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
               prefixIcon: Icon(Icons.email_outlined),
               //  labelText: "E-posta*",
               hintText: 'E-posta',
+              hintStyle: Styles.customNormalTextStyle(
+                  fontSize: 13, color: Colors.white),
+              labelStyle: Styles.customNormalTextStyle(fontSize: 16),
+            ),
+          ),
+        ),
+        SpaceH16(),
+        new Container(
+          height: 65,
+          width: 250,
+          decoration: BoxDecoration(
+            boxShadow: [Shadows.primaryShadow],
+            color: Color.fromRGBO(255, 255, 255, 0.3),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          padding: EdgeInsets.only(
+            left: 10,
+            right: 50,
+          ),
+          margin: EdgeInsets.only(left: 10.0, right: 10.0),
+          child: new TextFormField(
+            controller: _dogumTextController,
+            style: Styles.normalTextStyle,
+            validator: _validateFields,
+            decoration: InputDecoration(
+              prefixIcon: Icon(Icons.date_range_outlined),
+              //  labelText: "E-posta*",
+              hintText: 'Doğum yılınız',
               hintStyle: Styles.customNormalTextStyle(
                   fontSize: 13, color: Colors.white),
               labelStyle: Styles.customNormalTextStyle(fontSize: 16),
@@ -267,7 +347,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       //sign up user..
-
+      senddata();
     } else {
       setState(() {
         _autoValidate = true;

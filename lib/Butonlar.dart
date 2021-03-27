@@ -11,8 +11,9 @@ import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:volume_watcher/volume_watcher.dart';
 import 'package:battery/battery.dart';
-
 import 'YardmBildirim.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Butonlar extends StatefulWidget {
   @override
@@ -20,6 +21,20 @@ class Butonlar extends StatefulWidget {
 }
 
 class _ButonlarState extends State<Butonlar> {
+
+
+  String token1;
+  var url = 'https://umutbutonu.000webhostapp.com/PushNotification.php';
+  @override
+  void initState() {
+    super.initState();
+    initPlayer();
+    initPlatformState();
+  }
+
+
+
+
   ////////////////////////////////
 
   Duration _duration = new Duration();
@@ -28,12 +43,7 @@ class _ButonlarState extends State<Butonlar> {
 
   AudioCache audioCache;
 
-  @override
-  void initState() {
-    super.initState();
-    initPlayer();
-    initPlatformState();
-  }
+
 
   void initPlayer() {
     advancedPlayer = new AudioPlayer();
@@ -44,6 +54,7 @@ class _ButonlarState extends State<Butonlar> {
     advancedPlayer.durationHandler = (d) => setState(() {
           _duration = d;
         });
+
 
     advancedPlayer.positionHandler = (p) => setState(() {
           _position = p;
@@ -428,7 +439,9 @@ class _ButonlarState extends State<Butonlar> {
       ),
     );
   }
+
 }
+
 
 const String _svg_ncv7d4 =
     '<svg viewBox="256.9 178.2 97.6 93.6" ><path transform="translate(256.92, 178.17)" d="M 48.79222106933594 0 C 75.73941040039063 0 97.58444213867188 20.94243621826172 97.58444213867188 46.7762336730957 C 97.58444213867188 72.61003112792969 75.73941040039063 93.55246734619141 48.79222106933594 93.55246734619141 C 21.84502220153809 93.55246734619141 -3.814697322468419e-07 72.61003112792969 -3.814697322468419e-07 46.7762336730957 C -3.814697322468419e-07 20.94243621826172 21.84502220153809 0 48.79222106933594 0 Z" fill="#058745" stroke="#ffffff" stroke-width="1" stroke-miterlimit="4" stroke-linecap="butt" /></svg>';
