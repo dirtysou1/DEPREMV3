@@ -7,11 +7,10 @@ import 'package:homescreen/widgets/potbelly_button.dart';
 import 'package:homescreen/widgets/spaces.dart';
 import 'package:http/http.dart' as http;
 import 'LoginScreen.dart';
-import 'package:turkiye_il_ilce_mahalle/turkiye_il_ilce_mahalle.dart';
 import 'dart:async';
 import 'package:homescreen/values/iller.dart';
 import 'dart:convert';
-
+import 'package:fluttertoast/fluttertoast.dart';
 class SignUpScreen extends StatefulWidget {
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
@@ -31,27 +30,46 @@ class _SignUpScreenState extends State<SignUpScreen> {
       new TextEditingController();
   final TextEditingController _emailTextController =
       new TextEditingController();
-  final TextEditingController _ilTextController = new TextEditingController();
+  final TextEditingController _ilTextController =
+    new TextEditingController();
   final TextEditingController _dogumTextController =
-      new TextEditingController();
+    new TextEditingController();
+
   var kMarginPadding = 16.0;
   var kFontSize = 13.0;
-  Map _ilM = {"bilesenAdi": "İl Seçimi Yapın"};
-String url ="https://www.easyrescuer.com/flutterkayit.php";
+  String url ="https://www.easyrescuer.com/yenikayit.php";
 
-  Future<List> senddata() async {
-    final response = await http.post(Uri.parse(url), body: {
-      "isim": _firstNameTextController.text,
-      "soyisim": _lastNameTextController.text,
-      "tel": _phoneTextController.text,
-      "email": _emailTextController.text,
-      "il": _ilTextController.text,
-      "password": _passwordTextController.text,
-      "dogumyili": _dogumTextController.text,
-    });
 
-    var datauser = json.decode(response.body);
-  }
+
+    void addData() async{
+      var response = await http.post(Uri.parse(url),
+          body: {
+            "email": _emailTextController.text.trim(),
+            "isim": _firstNameTextController.text.trim(),
+            "soyisim": _lastNameTextController.text.trim(),
+            "dogumyili": _dogumTextController.text.trim(),
+            "tel": _phoneTextController.text.trim(),
+            "il": _ilTextController.text.trim(),
+            "password": _passwordTextController.text.trim(),
+          }
+      );
+      var jsonData = jsonDecode(response.body);
+      var jsonString = jsonData['message'];
+      // obtain shared preferences
+      var dogumyili = jsonData['dogumyili'];
+      if(jsonString=='Başarıyla kayıt oldunuz!!'){
+        print(dogumyili);
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) => LoginScreen()));
+        myToast(jsonString);
+        //You can route to your desire page here
+
+      }else{
+        myToast(jsonString);
+      }
+    }
+
+
   @override
   void initState() {
     super.initState();
@@ -347,7 +365,7 @@ String url ="https://www.easyrescuer.com/flutterkayit.php";
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       //sign up user..
-      senddata();
+      addData();
     } else {
       setState(() {
         _autoValidate = true;

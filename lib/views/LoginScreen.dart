@@ -1,12 +1,12 @@
+import 'dart:convert';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:homescreen/AlSayfas.dart';
 import 'package:homescreen/values/values.dart';
 import 'package:homescreen/widgets/potbelly_button.dart';
 import 'package:homescreen/widgets/spaces.dart';
-
-import '../main.dart';
-import '../main.dart';
+import 'package:http/http.dart' as http;
 import 'SignUpScreen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -24,10 +24,40 @@ class _LoginScreenState extends State<LoginScreen> {
       new TextEditingController();
   var kMarginPadding = 16.0;
   var kFontSize = 13.0;
+  String errormsg;
+
+  var url = "https://www.easyrescuer.com/girisflutter.php";
+
+  void addData() async{
+    var response = await http.post(Uri.parse(url),
+        body: {
+          "email": _emailTextController.text.trim(),
+          "password": _passwordTextController.text.trim(),
+
+        }
+    );
+    var jsonData = jsonDecode(response.body);
+    var jsonString = jsonData['message'];
+    var dogumyili = jsonData['il'];
+    if(jsonString=='Başarıyla giriş yaptınız.'){
+      myToast(jsonString);
+
+      print(dogumyili);
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (BuildContext context) => AlSayfas()));
+      print('başarılı');
+    }else{
+      myToast(jsonString);
+      print('başarısız');
+    }
+  }
+
+
 
   @override
   void initState() {
     super.initState();
+
   }
 
   @override
@@ -132,6 +162,9 @@ SpaceH30(),
           StringConst.LOGIN,
           onTap: () {
             _loginButtonTapped();
+
+
+
           },
         ),
         //onPressed: () { _loginButtonTapped();},
@@ -168,14 +201,24 @@ SpaceH30(),
     if (regex.hasMatch(email))
       return null;
     else
-      return "Please enter a valid email";
+      return "Lütfen doğru bir e-posta adresi girin.";
   }
 
   _loginButtonTapped() {
     FocusScope.of(context).requestFocus(new FocusNode());
     if (_formKey.currentState.validate()) {
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (BuildContext context) => AlSayfas()));
+      addData();
+
     }
   }
+}
+myToast(String toast){
+  return Fluttertoast.showToast(
+      msg: toast,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.red,
+      textColor: Colors.white
+  );
 }

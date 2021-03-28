@@ -47,7 +47,7 @@ class Component91 extends StatelessWidget {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) =>MyStatefulWidget() ));
             },
-              child:Text('TEXT')
+              child:Text('')
           ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(23.0),
