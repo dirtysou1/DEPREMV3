@@ -18,6 +18,7 @@ class StringConst {
   static const String HINT_TEXT_HOME_SEARCH_BAR = "Find Restaurants";
     static const String HINT_TEXT_TRENDING_SEARCH_BAR = "Ara";
   static const String LOGIN = "Giriş Yap";
+  static const String CIKIS ='Çıkış yap';
   static const String SKIP = "Atla";
   static const String REGISTER = "Kayıt Ol";
   static const String TURN_GPS = "Konum Bilgisini Aç";

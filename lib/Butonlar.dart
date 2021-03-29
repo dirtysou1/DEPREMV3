@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:adobe_xd/pinned.dart';
+import 'package:flutter_session/flutter_session.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -383,7 +384,9 @@ class _ButonlarState extends State<Butonlar> {
                 border: Border.all(width: 1.0, color: Colors.transparent),
               ),
               child: FlatButton(
-                onPressed: () {
+                onPressed: () async {
+
+
                   advancedPlayer.stop();
                   advancedPlayer.dispose();
                   Navigator.of(context).push(MaterialPageRoute(

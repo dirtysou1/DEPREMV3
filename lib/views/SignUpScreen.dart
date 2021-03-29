@@ -6,9 +6,9 @@ import 'package:homescreen/values/values.dart';
 import 'package:homescreen/widgets/potbelly_button.dart';
 import 'package:homescreen/widgets/spaces.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'LoginScreen.dart';
 import 'dart:async';
-import 'package:homescreen/values/iller.dart';
 import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
 class SignUpScreen extends StatefulWidget {
@@ -56,6 +56,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       var jsonData = jsonDecode(response.body);
       var jsonString = jsonData['message'];
       // obtain shared preferences
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      preferences.setString(_ilTextController.text, _ilTextController.text);
       var dogumyili = jsonData['dogumyili'];
       if(jsonString=='Başarıyla kayıt oldunuz!!'){
         print(dogumyili);

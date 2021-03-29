@@ -1,3 +1,5 @@
+import 'dart:async';
+
 /// Flutter code sample for BottomNavigationBar
 
 // This example shows a [BottomNavigationBar] as it is used within a [Scaffold]
@@ -11,29 +13,61 @@
 // the [Scaffold].
 
 import 'package:flutter/material.dart';
+import 'package:flutter_session/flutter_session.dart';
 import 'package:homescreen/HomePage.dart';
 import 'package:homescreen/Profil.dart';
 import 'package:homescreen/ProfilePage.dart';
 import 'package:homescreen/InfoPage.dart';
-import 'package:homescreen/SettingsPage.dart';
+import 'package:homescreen/settings_page.dart';
 import 'package:homescreen/Butonlar.dart';
 import 'package:homescreen/Yaknlarm.dart';
-
+import 'package:get/get.dart';
 import 'package:homescreen/views/LoginScreen.dart';
 import 'package:homescreen/views/SignUpScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'ProfilePage.dart';
 
-void main() => runApp(MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
+
+  runApp(MaterialApp(home: MyApp()));
+
+}
+String finalEmail;
 /// This is the main application widget.
-class MyApp extends StatelessWidget {
-  static const String _title = 'Flutter Code Sample';
+class MyApp extends StatefulWidget {
 
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState(){
+    getValidationData().whenComplete(() async {
+      Timer(Duration(seconds:0),()=> Navigator.of(context).push(MaterialPageRoute(
+          builder: (BuildContext context) => (finalEmail==null ? LoginScreen() : MyStatefulWidget()))));
+    });
+    super.initState();
+    
+  }
+  
+  static const String _title = 'Flutter Code Sample';
+  Future getValidationData() async{
+  final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  var obtainEmail = sharedPreferences.getString('email');
+  setState((){
+    finalEmail = obtainEmail;
+
+        });
+        print(finalEmail);
+
+}
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: _title,
-      home:   SignUpScreen(),
+      home: LoginScreen()
     );
   }
 }
@@ -56,12 +90,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     Butonlar(),
     Profil(),
     Yaknlarm(),
-    SettingsPage(),
+    SettingsPage2(),
   ];
 
   void _onItemTapped(int index) {
     setState(() {
+
       _selectedIndex = index;
+
     });
   }
   //(child: _widgetOptions.elementAt(_selectedIndex))

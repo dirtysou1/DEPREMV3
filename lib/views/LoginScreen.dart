@@ -1,14 +1,17 @@
 import 'dart:convert';
+import 'package:flutter_session/flutter_session.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:homescreen/AlSayfas.dart';
+import 'package:homescreen/main.dart';
 import 'package:homescreen/values/values.dart';
 import 'package:homescreen/widgets/potbelly_button.dart';
 import 'package:homescreen/widgets/spaces.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'SignUpScreen.dart';
-
+import 'package:get/get.dart';
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -22,6 +25,10 @@ class _LoginScreenState extends State<LoginScreen> {
       new TextEditingController();
   final TextEditingController _passwordTextController =
       new TextEditingController();
+
+  get password async {
+    return _passwordTextController;
+  }
   var kMarginPadding = 16.0;
   var kFontSize = 13.0;
   String errormsg;
@@ -41,10 +48,18 @@ class _LoginScreenState extends State<LoginScreen> {
     var dogumyili = jsonData['il'];
     if(jsonString=='Başarıyla giriş yaptınız.'){
       myToast(jsonString);
+      //await FlutterSession().set('token',_emailTextController.text.trim());
 
-      print(dogumyili);
+
+      final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+      sharedPreferences.setString('email', _emailTextController.text);
+      var obtainEmail = sharedPreferences.getString('email');
+      finalEmail = obtainEmail;
+      sharedPreferences.setString('il', 'gfdgfsdfsgsfdfgsdf');
       Navigator.of(context).push(MaterialPageRoute(
           builder: (BuildContext context) => AlSayfas()));
+
+
       print('başarılı');
     }else{
       myToast(jsonString);
@@ -207,6 +222,7 @@ SpaceH30(),
   _loginButtonTapped() {
     FocusScope.of(context).requestFocus(new FocusNode());
     if (_formKey.currentState.validate()) {
+
       addData();
 
     }
