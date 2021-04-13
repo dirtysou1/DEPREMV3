@@ -63,12 +63,16 @@ class _AddEditPageState extends State<AddEditPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor:Color.fromRGBO(255, 255, 255, 0.3) ,extendBodyBehindAppBar: true,
-      appBar: AppBar(backgroundColor: Color.fromRGBO(255, 255, 255, 0.2),centerTitle: true,leading: IconButton(icon: Image.asset('assets/images/2.0x/closebutton.png'),
-        onPressed: (){
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (BuildContext context) => MyHomePage()));
-        },),
+    return Scaffold(backgroundColor: Color.fromRGBO(255, 255, 255, 0.3),
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(backgroundColor: Color.fromRGBO(255, 255, 255, 0.2),
+        centerTitle: true,
+        leading: IconButton(
+          icon: Image.asset('assets/images/2.0x/closebutton.png'),
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => MyHomePage()));
+          },),
         title: Text(editMode ? 'Kişiyi düzenle' : 'Kişi ekle'),
       ),
       body: Container(
@@ -78,15 +82,18 @@ class _AddEditPageState extends State<AddEditPage> {
             fit: BoxFit.cover,
           ),
         ),
-        child: Container(
-          child: ListView(
+
+    child: Container(
+      child: Form(
+        key: _formKey,
+        autovalidate: _autoValidate,child: ListView(
             children: <Widget>[
               SpaceH96(),
               Center(
                   child: Text(
-                editMode ? 'KİŞİ DÜZENLE' : 'KİŞİ EKLE',
-                style: TextStyle(color: Colors.white,fontSize: 40),
-              )),
+                    editMode ? 'KİŞİ DÜZENLE' : 'KİŞİ EKLE',
+                    style: TextStyle(color: Colors.white, fontSize: 40),
+                  )),
               SpaceH40(),
               Center(
                 child: new Container(
@@ -159,10 +166,9 @@ class _AddEditPageState extends State<AddEditPage> {
                           child: RaisedButton(
                             onPressed: () {
                               setState(() {
-                                addUpdateData();
+                                _ButtonTaped();
                               });
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (BuildContext context) => MyHomePage()));
+
                               debugPrint('Clicked RaisedButton Button');
                             },
                             color: Color.fromRGBO(60, 63, 65, 1.0),
@@ -176,9 +182,9 @@ class _AddEditPageState extends State<AddEditPage> {
                       Center(
                         child: FlatButton(
                           onPressed: () {
-
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (BuildContext context) => MyHomePage()));
+                                builder: (BuildContext context) =>
+                                    MyHomePage()));
                           },
                           color: Color.fromRGBO(60, 63, 65, 1.0),
                           child: Text(
@@ -186,7 +192,8 @@ class _AddEditPageState extends State<AddEditPage> {
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
-                      ),],
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -194,8 +201,26 @@ class _AddEditPageState extends State<AddEditPage> {
           ),
         ),
       ),
-    );
+    ));
   }
+
+  _ButtonTaped() {
+    FocusScope.of(context).requestFocus(new FocusNode());
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+      //sign up user..
+      addUpdateData();
+
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (BuildContext context) =>
+              MyHomePage()));
+    } else {
+      setState(() {
+        _autoValidate = true;
+      });
+    }
+  }
+}
 
   String _validateFields(String text) {
     if (text.length == 0) {
@@ -204,6 +229,5 @@ class _AddEditPageState extends State<AddEditPage> {
       return null;
     }
   }
-}
 
 

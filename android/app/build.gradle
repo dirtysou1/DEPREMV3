@@ -39,7 +39,7 @@ android {
         targetSdkVersion 29
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-
+        targetSdkVersion rootProject.ext.targetSdkVersion
     }
 
     buildTypes {
@@ -49,6 +49,7 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+
 }
 
 flutter {

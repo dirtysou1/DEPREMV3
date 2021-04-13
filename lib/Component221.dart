@@ -18,8 +18,7 @@ class Component221 extends StatelessWidget {
           pinTop: true,
           pinBottom: true,
           child: Container(child: FlatButton(onPressed: ()async{
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => MyHomePage()));
+
           },),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.elliptical(9999.0, 9999.0)),

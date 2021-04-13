@@ -17,9 +17,11 @@ import 'widgets/spaces.dart';
 class ProfilSayfasi extends StatefulWidget {
   @override
   _ProfilSayfasiState createState() => _ProfilSayfasiState();
+
 }
 
 class _ProfilSayfasiState extends State<ProfilSayfasi> {
+
 
 
 
@@ -43,19 +45,32 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
               child: SingleChildScrollView(
                 child: Form(
                     child: Column(
-                  children: <Widget>[
+                      children: <Widget>[
 
-                    _profil()
-                  ],
-                )),
+                        _profil()
+                      ],
+                    )),
               ),
             )),
       ),
     );
   }
 
+
+
+
+
   Widget _profil() {
+
+    if(isim==null){
+      isim=finalisim;
+      soyisim=finalsoyisim;
+      il= finalil;
+      dogumyili=finaldogumyili;
+    }
+
     return new Column(
+
       children: [
         CircleAvatar(
           radius: 70,
@@ -89,9 +104,9 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
                 margin: EdgeInsets.only(left: 10.0, right: 10.0),
                 child: Center(
                     child: Text(
-                  "İsim :  ${finalisim}",
-                  style: Styles.normalTextStyle,
-                )),
+                      "İsim :  ${isim}",
+                      style: Styles.normalTextStyle,
+                    )),
               ),
               SpaceH16(),
               Container(
@@ -108,9 +123,9 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
                 margin: EdgeInsets.only(left: 10.0, right: 10.0),
                 child: Center(
                     child: Text(
-                  "Soyisim :  ${finalsoyisim}",
-                  style: Styles.normalTextStyle,
-                )),
+                      "Soyisim :  ${soyisim}",
+                      style: Styles.normalTextStyle,
+                    )),
               ),
               SpaceH16(),
               Container(
@@ -127,9 +142,9 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
                 margin: EdgeInsets.only(left: 10.0, right: 10.0),
                 child: Center(
                     child: Text(
-                  "Doğum yılınız :  $finaldogumyili",
-                  style: Styles.normalTextStyle,
-                )),
+                      "Doğum yılınız :  $dogumyili",
+                      style: Styles.normalTextStyle,
+                    )),
               ),
               SpaceH16(),
               Container(
@@ -146,9 +161,9 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
                 margin: EdgeInsets.only(left: 10.0, right: 10.0),
                 child: Center(
                     child: Text(
-                  "İl :  ${finalil}",
-                  style: Styles.normalTextStyle,
-                )),
+                      "İl :  ${il}",
+                      style: Styles.normalTextStyle,
+                    )),
               ),
               SpaceH30(),
               SizedBox(width: 150,
@@ -160,7 +175,7 @@ class _ProfilSayfasiState extends State<ProfilSayfasi> {
                       borderRadius: BorderRadius.circular(30)),
                   onTap: () async {
                     final SharedPreferences sharedPreferences =
-                        await SharedPreferences.getInstance();
+                    await SharedPreferences.getInstance();
                     sharedPreferences.remove('email');
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (BuildContext context) => LoginScreen()));

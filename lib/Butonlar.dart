@@ -101,7 +101,7 @@ class _ButonlarState extends State<Butonlar> {
 
   final Battery _battery = Battery();
   LocationService loca1 = new LocationService();
-  UserLocation Loca = new UserLocation();
+
   bool yardim;
   Future yardimSil() async {
     var url = 'https://www.easyrescuer.com/YardimSil.php';
@@ -140,9 +140,9 @@ class _ButonlarState extends State<Butonlar> {
       print(intValue);
 
       String guvende =
-          "Merhaba, sizi yakını olarak ekleyen ${finalisim.toUpperCase()} ${finalsoyisim.toUpperCase()} güvende olduğunu belirtti. Koordinatları: $Koordinat";
+          "Merhaba, sizi yakını olarak ekleyen ${finalisim.toUpperCase()} ${finalsoyisim.toUpperCase()} güvende olduğunu belirtti. Koordinatları: $Koordinat easyrescuer.com";
       String yardimmesaj =
-          "Sizi yakını olarak ekleyen ${finalisim.toUpperCase()} ${finalsoyisim.toUpperCase()} TEHLİKEDE olduğunu belirtti. Koordinatları: $Koordinat";
+          "Sizi yakını olarak ekleyen ${finalisim.toUpperCase()} ${finalsoyisim.toUpperCase()} TEHLİKEDE olduğunu belirtti. Koordinatları: $Koordinat easyrescuer.com";
 
 
       print(guvende);

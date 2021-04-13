@@ -3,17 +3,34 @@ import 'package:adobe_xd/pinned.dart';
 import 'package:homescreen/DarkCard1ContainerBOutlined.dart';
 import './Component221.dart';
 import 'package:homescreen/values/values.dart';
-
+import 'package:homescreen/Yakinlar.dart';
 import 'widgets/spaces.dart';
 import 'widgets/spaces.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
-class Yaknlarm extends StatelessWidget {
-  Yaknlarm({
-    Key key,
-  }) : super(key: key);
+
+class Yaknlarm extends StatefulWidget {
+  @override
+  _YaknlarmState createState() => _YaknlarmState();
+}
+
+class _YaknlarmState extends State<Yaknlarm> {
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton:  MaterialButton(height: 50,
+        onPressed: () {Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) => MyHomePage()));},
+        color: Colors.amber,
+        textColor: Colors.white,
+        child: Image.asset('assets/images/kisiekle.png'),
+        padding: EdgeInsets.all(20),
+        shape: CircleBorder(),
+      )
+    ,
       backgroundColor: const Color(0xffffffff),
       body: Stack(
         children: <Widget>[
@@ -84,16 +101,12 @@ class Yaknlarm extends StatelessWidget {
               ),
             ),
           ),
-          Pinned.fromSize(
-            bounds: Rect.fromLTWH(127.0, 511.0, 121.0, 113.0),
-            size: Size(375.0, 667.0),
-            pinBottom: true,
-            fixedWidth: true,
-            fixedHeight: true,
-            child: Component221(),
-          ),
+
         ],
       ),
     );
   }
+int _counter;
+
+
 }

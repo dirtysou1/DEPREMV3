@@ -11,6 +11,11 @@ import 'package:homescreen/widgets/spaces.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'SignUpScreen.dart';
+import 'package:homescreen/views/LoginScreen.dart';
+import 'package:flutter/material.dart';
+import 'package:homescreen/values/values.dart';
+
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
 
 class User{
@@ -31,6 +36,8 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
+
+String isim,soyisim,dogumyili,il;
 class _LoginScreenState extends State<LoginScreen> {
 
   var divWidth;
@@ -49,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String errormsg;
 
   var url = "https://www.easyrescuer.com/girisflutter.php";
-  String finalTel,finalisim,finalSoyisim,finaldogumyili,finalil,finalid;
+
   void addData() async{
     var response = await http.post(Uri.parse(url),
         body: {
@@ -79,28 +86,33 @@ class _LoginScreenState extends State<LoginScreen> {
 
       sharedPreferences.setString('id', id);
       var obtainId = sharedPreferences.getString('id');
-      finalid =obtainId ;
+
 
 
       sharedPreferences.setString('isim', jsonisim);
       var obtainIsim = sharedPreferences.getString('isim');
       finalisim = obtainIsim;
+      isim=obtainIsim;
 
       sharedPreferences.setString('soyisim', jsonSoyisim);
       var obtainsoyisim = sharedPreferences.getString('soyisim');
-      finalSoyisim =obtainsoyisim;
+      soyisim=obtainsoyisim;
 
       sharedPreferences.setString('dogumyili', jsonDogumyili);
       var obtaindogumyili = sharedPreferences.getString('dogumyili');
       finaldogumyili = obtaindogumyili;
+      dogumyili=obtaindogumyili;
+
 
       sharedPreferences.setString('tel', jsonTel);
       var obtaintel = sharedPreferences.getString('tel');
-      finalTel =obtaintel;
+
 
       sharedPreferences.setString('il', jsonil);
       var obtainil = sharedPreferences.getString('il');
       finalil =obtainil;
+      il=obtainil;
+
 
       Navigator.of(context).push(MaterialPageRoute(
           builder: (BuildContext context) => AlSayfas()));
@@ -275,6 +287,16 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 }
+
+
+//String obtainedTel, obtainedisim,obtainedSoyisim,obtaineddogumyili,obtainedil,obtainedid;
+
+void kullaniciCek() async {
+  final SharedPreferences sharedPreferences = await SharedPreferences
+      .getInstance();
+
+
+}
 myToast(String toast){
   return Fluttertoast.showToast(
       msg: toast,
@@ -285,3 +307,4 @@ myToast(String toast){
       textColor: Colors.white
   );
 }
+

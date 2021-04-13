@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:homescreen/Yaknlarm.dart';
 import 'package:http/http.dart' as http;
 import 'package:homescreen/AddEditPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -57,13 +59,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 builder: (BuildContext context) => MyStatefulWidget()));
           },),
       ),
-      floatingActionButton: FloatingActionButton(backgroundColor: Colors.amber[900],
+      floatingActionButton:_getFAB() /*FloatingActionButton(backgroundColor: Colors.amber[900],
         child: Icon(Icons.add,size: 50,),
         onPressed: (){
           Navigator.push(context, MaterialPageRoute(builder: (context) => AddEditPage(),),);
           debugPrint('Clicked FloatingActionButton Button');
         },
-      ),
+      ),*/,
       body: Container(
         decoration: BoxDecoration(
         image: DecorationImage(
@@ -123,6 +125,65 @@ class _MyHomePageState extends State<MyHomePage> {
           },
         ),
       ),
+    );
+  }
+int _counter;
+  Widget _getFAB() {
+    return SpeedDial(
+      animatedIcon: AnimatedIcons.menu_close,
+      animatedIconTheme: IconThemeData(size: 22),
+      backgroundColor: Colors.amber,
+      visible: true,
+      curve: Curves.bounceIn,
+      children: [
+        // FAB 1
+        SpeedDialChild(
+            child: Icon(Icons.refresh,),
+            backgroundColor: Colors.amber[900],
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(),),);
+            },
+            label: 'YENİLE',
+            labelStyle: TextStyle(
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+                fontSize: 16.0),
+            labelBackgroundColor: Colors.amber[900]),
+        // FAB 2
+
+        SpeedDialChild(
+            child: Icon(Icons.home_filled),
+            backgroundColor: Colors.amber[900],
+            onTap: () {
+              setState(() {
+                _counter = 1;
+                Navigator.push(context, MaterialPageRoute(builder: (context) => MyStatefulWidget(),),);
+              });
+            },
+            label: 'ANASAYFA',
+            labelStyle: TextStyle(
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+                fontSize: 16.0),
+            labelBackgroundColor: Colors.amber[900]),
+
+        SpeedDialChild(
+            child: Icon(Icons.add),
+            backgroundColor: Colors.amber[900],
+            onTap: () {
+              setState(() {
+                _counter = 0;
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AddEditPage(),),);
+              });
+            },
+            label: 'EKLE',
+            labelStyle: TextStyle(
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+                fontSize: 16.0),
+            labelBackgroundColor: Colors.amber[900]),
+
+      ],
     );
   }
 }

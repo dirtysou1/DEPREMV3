@@ -1,68 +1,42 @@
 import 'dart:async';
 import 'dart:convert';
-
+import 'dart:io';
+import 'package:background_fetch/background_fetch.dart';
 /// Flutter code sample for BottomNavigationBar
 
-// This example shows a [BottomNavigationBar] as it is used within a [Scaffold]
-// widget. The [BottomNavigationBar] has four [BottomNavigationBarItem]
-// widgets, which means it defaults to [BottomNavigationBarType.shifting], and
-// the [currentIndex] is set to index 0. The selected item is amber in color.
-// With each [BottomNavigationBarItem] widget, backgroundColor property is
-// also defined, which changes the background color of [BottomNavigationBar],
-// when that item is selected. The `_onItemTapped` function changes the
-// selected item's index and displays a corresponding message in the center of
-// the [Scaffold].
+import 'package:workmanager/workmanager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:adobe_xd/pinned.dart';
-import 'package:flutter_session/flutter_session.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:homescreen/GvendeBildirim.dart';
 import 'package:homescreen/plugins_utils/DeviceInfo.dart';
 import 'package:homescreen/plugins_utils/Location.dart';
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:volume_watcher/volume_watcher.dart';
 import 'package:battery/battery.dart';
-import 'YardmBildirim.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'package:telephony/telephony.dart';
-import 'main.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_session/flutter_session.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-
-
-import 'package:homescreen/ProfilSayfasi.dart';
-import 'package:homescreen/ProfilePage.dart';
-import 'package:homescreen/InfoPage.dart';
-
 import 'package:homescreen/Butonlar.dart';
-
 import 'package:homescreen/Yaknlarm.dart';
-import 'package:get/get.dart';
 import 'package:homescreen/SonDepremler.dart';
-import 'package:homescreen/plugins_utils/Location.dart';
-
 import 'package:homescreen/views/LoginScreen.dart';
-import 'package:homescreen/views/SignUpScreen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:http/http.dart' as http;
+import 'ProfilSayfasi.dart';
+
+
+
 
 bool Guvendemi;
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
 
   runApp(MaterialApp(home: MyApp(),debugShowCheckedModeBanner: false,));
 
 }
+
+
+
 String finalEmail;
 String finalID;
 String finalisim,finaldogumyili,finalil,finalsoyisim,finaltel;
@@ -78,15 +52,20 @@ class _MyAppState extends State<MyApp> {
   void initState(){
 
     DepremCek();
+
     getValidationData().whenComplete(() async {
       Timer(Duration(seconds:0),()=> Navigator.of(context).push(MaterialPageRoute(
           builder: (BuildContext context) => (finalEmail==null ? LoginScreen() : MyStatefulWidget()))));
+
+
 
     });
     super.initState();
     initPlayer();
     initPlatformState();
   }
+
+
 
 
   var urlTehlike = "https://www.easyrescuer.com/yardim.php";
@@ -163,6 +142,8 @@ class _MyAppState extends State<MyApp> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
+
+
     String platformVersion;
 
     // Platform messages may fail, so we use a try/catch PlatformException.
@@ -229,9 +210,9 @@ class _MyAppState extends State<MyApp> {
       print(intValue);
 
       String guvende =
-          "Merhaba, sizi yakını olarak ekleyen ${finalisim.toUpperCase()} ${finalsoyisim.toUpperCase()} güvende olduğunu belirtti. Koordinatları: $Koordinat";
+          "Merhaba, sizi yakını olarak ekleyen ${finalisim.toUpperCase()} ${finalsoyisim.toUpperCase()} güvende olduğunu belirtti. Koordinatları: $Koordinat easyrescuer.com";
       String yardimmesaj =
-          "Sizi yakını olarak ekleyen ${finalisim.toUpperCase()} ${finalsoyisim.toUpperCase()} TEHLİKEDE olduğunu belirtti. Koordinatları: $Koordinat";
+          "Sizi yakını olarak ekleyen ${finalisim.toUpperCase()} ${finalsoyisim.toUpperCase()} TEHLİKEDE olduğunu belirtti. Koordinatları: $Koordinat easyrescuer.com";
 
 
       print(guvende);
@@ -400,6 +381,22 @@ class MyStatefulWidget extends StatefulWidget {
 
 /// This is the private State class that goes with MyStatefulWidget.
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+
+  @override
+  void initState(){
+
+    if(isim==null){
+      isim=finalisim;
+      soyisim=finalsoyisim;
+      il= finalil;
+      dogumyili=finaldogumyili;
+    }
+
+    super.initState();
+
+  }
+
+
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold,color: Colors.red);
@@ -454,4 +451,29 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       ),
     );
   }
+}
+class BackGroundService extends StatelessWidget{
+  Future<void> startService()
+  async {
+    if(Platform.isAndroid)
+    {
+      var methodChannel=MethodChannel("com.example.messages");
+      String data=await methodChannel.invokeMethod("startService");
+      debugPrint(data);
+
+    }
+  }
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Scaffold(
+      appBar: AppBar(title: Text("Flutter Background Service"),backgroundColor: Colors.green,),
+      body: Center(child: MaterialButton(
+        onPressed:(){startService();},
+        color: Colors.brown,
+        child: Text("Start Service",style: TextStyle(color: Colors.white),),
+      ),),
+    );
+  }
+
 }
